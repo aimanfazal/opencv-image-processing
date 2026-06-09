@@ -2,8 +2,11 @@ import cv2 as cv
 import numpy as np
 import os
  
-people = []
 DIR = r'path'
+people = []
+
+for person in os.listdir(DIR):
+  people.append(person)
 
 haar_classifier = cv.CascadeClassifier('haar_cascade.xml')
 
@@ -27,3 +30,16 @@ def create_train():
         faces_roi = gray[y:y+w, x:x+w]
         features.append(faces_roi)
         labels.append(label)
+
+create_train()
+
+# Image training completed
+
+features = np.array(features, dtype='object')
+labels = np.array(labels)
+
+face_recognizer = cv.face.LBPHFaceRecognizer()
+face_recognizer.train(features, labels)
+
+np.save('features.npy', features)
+np.save('labels.npy', labels)
