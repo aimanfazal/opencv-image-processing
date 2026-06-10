@@ -9,7 +9,7 @@ def rescaleFrame(frame, scale = 0.75):
 
   return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
-source = cv.imread('../test_files/1.jpg')
+source = cv.imread('../test_files/fd_1.jpg')
 # source = rescaleFrame(source)
 gray = cv.cvtColor(source, cv.COLOR_BGR2GRAY)
 

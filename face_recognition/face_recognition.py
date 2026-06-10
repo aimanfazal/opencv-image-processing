@@ -20,7 +20,7 @@ face_recognizer = cv.face.LBPHFaceRecognizer_create()
 face_recognizer.read('face_trained.yml')
 
 # Test Image
-img_path = r'../test.jpg'
+img_path = r'C:\Users\icxnicAF\Downloads\1.jpg'
 img = cv.imread(img_path)
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
