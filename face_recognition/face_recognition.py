@@ -56,7 +56,7 @@ for (x, y, w, h) in faces_rect:
 
     cv.putText(img, name, (x, y - 10), cv.FONT_HERSHEY_SIMPLEX, 1.0, color, 2)
 
-    cv.rectangle(img, (x, y), (x + w, y + h), color, 2)
+    cv.rectangle(img, (x, y), (x + w, y + h), color, 3)
 
 gray_display = rescaleFrame(gray)
 img_display = rescaleFrame(img)

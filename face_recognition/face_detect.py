@@ -1,6 +1,6 @@
 import cv2 as cv
 
-def rescaleFrame(frame, scale = 0.75):
+def rescaleFrame(frame, scale = 0.9):
   # Images, Videos and Live Videos
   width = int(frame.shape[1] * scale)
   height = int(frame.shape[0] * scale)
@@ -9,14 +9,14 @@ def rescaleFrame(frame, scale = 0.75):
 
   return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
-source = cv.imread('../test_files/fd_1.jpg')
+source = cv.imread('../test_files/detection_images/fd_1.jpg')
 # source = rescaleFrame(source)
 gray = cv.cvtColor(source, cv.COLOR_BGR2GRAY)
 
 haar_classifier = cv.CascadeClassifier('../haar_cascade.xml')
 
 #* greater number of minNeighbours, higher accuracy
-face_detect = haar_classifier.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=4)
+face_detect = haar_classifier.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
 
 print(f"Number of face(s) detected: {len(face_detect)}")
 
