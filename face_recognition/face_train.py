@@ -49,3 +49,5 @@ face_recognizer.save('face_trained.yml')
 
 np.save('features.npy', features)
 np.save('labels.npy', labels)
+
+print("Training done!")
