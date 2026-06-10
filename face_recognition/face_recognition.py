@@ -1,59 +1,68 @@
 import cv2 as cv
 import os
 
-def rescaleFrame(frame, scale = 0.5):
-  # Images, Videos and Live Videos
-  width = int(frame.shape[1] * scale)
-  height = int(frame.shape[0] * scale)
+FACE_SIZE = (250, 250)
+UNKNOWN_THRESHOLD = 55
 
-  dimensions = (width, height)
+def rescaleFrame(frame, scale=0.5):
+    width = int(frame.shape[1] * scale)
+    height = int(frame.shape[0] * scale)
 
-  return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
+    return cv.resize(frame, (width, height), interpolation=cv.INTER_AREA)
 
 haar_classifier = cv.CascadeClassifier('../haar_cascade.xml')
 
-people = []
-for person in os.listdir(r'../data'):
-  people.append(person)
+people = sorted(os.listdir(r'../data'))
 
 face_recognizer = cv.face.LBPHFaceRecognizer_create()
 face_recognizer.read('face_trained.yml')
 
-# Test Image
-# img_path = r'../test_files/fr_2.jpg'
-img_path = r'C:\Users\icxnicAF\Downloads\test.jpg'
+# Test image
+img_path = r'..\test_files\recognition_images\fr_14.jpg'
+
 img = cv.imread(img_path)
+
+if img is None:
+    raise FileNotFoundError(img_path)
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
-# Detect the face in the image
-faces_rect = haar_classifier.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=15)
+faces_rect = haar_classifier.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=8)
+
+print(f"Detected faces: {len(faces_rect)}")
+
+if len(faces_rect) == 0:
+    print("No face detected.")
 
 for (x, y, w, h) in faces_rect:
-  faces_roi = gray[y:y+h, x:x+w]
-  label, confidence = face_recognizer.predict(faces_roi)
 
-  print(f"Label = {people[label]} with a confidence of {confidence}\n")
+    face_roi = gray[y:y+h, x:x+w]
 
-  print("People:", people)
-  print("Detected faces:", len(faces_rect))
-  print("ROI shape:", faces_roi.shape)
+    # Same preprocessing as training
+    face_roi = cv.resize(face_roi, FACE_SIZE)
 
+    label, confidence = face_recognizer.predict(face_roi)
 
-  cv.putText(img, str(people[label]), (x//2, y//2), cv.FONT_HERSHEY_SIMPLEX, 2.0, (0, 255, 0), thickness=3)
-  cv.rectangle(img, (x,y), (x+w, y+h), (0, 255, 0), thickness=3)
+    print(f"\nPredicted Label: {people[label]}")
+    print(f"Confidence: {confidence:.2f}")
+    print(f"ROI Shape: {face_roi.shape}")
 
-gray = rescaleFrame(gray)
-img = rescaleFrame(img)
+    if confidence > UNKNOWN_THRESHOLD:
+        name = "Unknown"
+        color = (0, 0, 255)
+    else:
+        name = people[label]
+        color = (0, 255, 0)
 
-cv.imshow('Sample_Image', gray)
-cv.imshow('Detected_Face', img)
+    cv.putText(img, name, (x, y - 10), cv.FONT_HERSHEY_SIMPLEX, 1.0, color, 2)
+
+    cv.rectangle(img, (x, y), (x + w, y + h), color, 2)
+
+gray_display = rescaleFrame(gray)
+img_display = rescaleFrame(img)
+
+cv.imshow('Grayscale', gray_display)
+cv.imshow('Recognition Result', img_display)
 
 cv.waitKey(0)
-
-# Confidence Value Range:
-
-# 0  – 20	Very strong match
-# 20 – 50	Good match
-# 50 – 80	Weak match
-# 80+ -	  Likely wrong person
+cv.destroyAllWindows()
