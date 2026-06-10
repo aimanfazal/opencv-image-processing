@@ -1,12 +1,12 @@
 import cv2 as cv
 
 def readImage():
-  img = cv.imread('imgs/insect.jpg')
-  cv.imshow('ImageWindow', img)
+  img = cv.imread('../media/insect.jpg')
+  cv.imshow('Image_Window', img)
   cv.waitKey(0)
 
 def readVideo():
-  capture = cv.VideoCapture('vids/clip.mp4')
+  capture = cv.VideoCapture('../media/clip.mp4')
   while True:
     isTrue, frame = capture.read()
 
@@ -14,6 +14,7 @@ def readVideo():
       break
     cv.imshow('videoWindow', frame)
 
+    # Pressing 'D' closes the media windows
     if cv.waitKey(20) & 0xFF == ord('d'):
       break
   capture.release()

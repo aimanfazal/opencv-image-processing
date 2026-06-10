@@ -15,7 +15,7 @@ def changeRes(capture, width, height):
   capture.set(4, height)
 
 def readImage():
-  img = cv.imread('imgs/insect.jpg')
+  img = cv.imread('../media/insect.jpg')
   resizedImage = rescaleFrame(img)
   
   cv.imshow('ImageWindow', img)
@@ -23,7 +23,7 @@ def readImage():
   cv.waitKey(0)
 
 def readVideo():
-  capture = cv.VideoCapture('vids/clip.mp4')
+  capture = cv.VideoCapture('../media/clip.mp4')
   while True:
     isTrue, frame = capture.read()
     resizedFrame = rescaleFrame(frame)
@@ -33,10 +33,11 @@ def readVideo():
     cv.imshow('videoWindow', frame)
     cv.imshow('rescaled_frame', resizedFrame)
 
+    # Pressing 'D' closes the windows
     if cv.waitKey(20) & 0xFF == ord('d'):
       break
   capture.release()
   cv.destroyAllWindows()
 
 readVideo()
-# readImage()
+readImage()

@@ -10,16 +10,17 @@ def rescaleFrame(frame, scale = 0.5):
 
   return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
-haar_classifier = cv.CascadeClassifier('haar_cascade.xml')
+haar_classifier = cv.CascadeClassifier('../haar_cascade.xml')
 
 people = []
-for person in os.listdir(r'E:\Aiman Fazal\Documents\BTech\Coding\Python\gridlock\learn\openCV\data'):
+for person in os.listdir(r'../data'):
   people.append(person)
 
 face_recognizer = cv.face.LBPHFaceRecognizer_create()
 face_recognizer.read('face_trained.yml')
 
-img_path = r'C:\Users\icxnicAF\Downloads\test.jpg'
+# Test Image
+img_path = r'../test.jpg'
 img = cv.imread(img_path)
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)

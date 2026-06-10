@@ -2,13 +2,13 @@ import cv2 as cv
 import numpy as np
 import os
  
-DIR = r'E:\Aiman Fazal\Documents\BTech\Coding\Python\gridlock\learn\openCV\data'
+DIR = r'../data'
 people = []
 
 for person in os.listdir(DIR):
   people.append(person)
 
-haar_classifier = cv.CascadeClassifier('haar_cascade.xml')
+haar_classifier = cv.CascadeClassifier('../haar_cascade.xml')
 
 features = [] 
 labels = []

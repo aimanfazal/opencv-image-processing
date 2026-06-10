@@ -22,4 +22,4 @@ def rotation(image, angle, rotPoint=None):
 
   return cv.warpAffine(image, rotMat, dimensions)
 
-readImage('imgs/farm.jpg')
+readImage('../media/farm.jpg')

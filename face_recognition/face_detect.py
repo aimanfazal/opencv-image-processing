@@ -1,9 +1,9 @@
 import cv2 as cv
 
-source = cv.imread('imgs/group_2.jpg')
+source = cv.imread('../media/group_2.jpg')
 gray = cv.cvtColor(source, cv.COLOR_BGR2GRAY)
 
-haar_classifier = cv.CascadeClassifier('haar_cascade.xml')
+haar_classifier = cv.CascadeClassifier('../haar_cascade.xml')
 
 #* greater number of minNeighbours, higher accuracy
 face_detect = haar_classifier.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=4)
