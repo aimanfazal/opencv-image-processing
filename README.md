@@ -101,6 +101,7 @@ opencv-image-processing/
 ├── media/
 ├── haar_cascade.xml
 ├── requirements.txt
+├── LICENSE
 └── README.md
 ```
 
